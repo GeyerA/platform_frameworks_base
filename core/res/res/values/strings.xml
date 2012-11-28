@@ -4556,4 +4556,7 @@
     <!-- Cling help message when hiding the navigation bar entering immersive mode [CHAR LIMIT=none] -->
     <string name="immersive_mode_confirmation" msgid="8554991488096662508">Swipe down from the top to exit full screen.</string>
 
+    <!-- kill app long press back -->
+    <string name="app_killed_message">Application killed.</string>
+
 </resources>
