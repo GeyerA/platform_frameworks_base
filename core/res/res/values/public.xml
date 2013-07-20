@@ -2098,5 +2098,6 @@
   <public type="string" name="global_action_reboot" />
   <public type="string" name="reboot_progress" />
   <public type="string" name="reboot_system" />
+  <public type="string" name="reboot_confirm" />
 
 </resources>
