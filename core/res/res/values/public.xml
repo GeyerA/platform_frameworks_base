@@ -2087,4 +2087,16 @@
   <public type="style" name="Theme.DeviceDefault.NoActionBar.TranslucentDecor" id="0x010301e3" />
   <public type="style" name="Theme.DeviceDefault.Light.NoActionBar.TranslucentDecor" id="0x010301e4" />
 
+  <!--for screenshot feature -->
+  <public type="drawable" name="ic_lock_screenshot" />
+  <public type="string" name="global_action_screenshot" />
+
+  <!-- reboot options -->
+  <public type="array" name="shutdown_reboot_actions" />
+  <public type="array" name="shutdown_reboot_options" />
+  <public type="drawable" name="ic_lock_reboot" />
+  <public type="string" name="global_action_reboot" />
+  <public type="string" name="reboot_progress" />
+  <public type="string" name="reboot_system" />
+
 </resources>
