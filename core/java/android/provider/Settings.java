@@ -2612,6 +2612,17 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_NOTIFICATIONS = "lockscreen_notifications";
 
+        /*
+         * Custom navring actions
+         *
+         * @hide
+         */
+        public static final String[] NAVIGATION_RING_TARGETS = new String[] {
+            "navigation_ring_targets_0",
+            "navigation_ring_targets_1",
+            "navigation_ring_targets_2",
+        };
+
         /**
          * Immersive mode global actions switch
          * 0 = no
@@ -2772,6 +2783,12 @@ public final class Settings {
          * @hide
          */
         public static final String QUICK_SETTINGS_TILES = "quick_settings_tiles";
+
+        /**
+          * Whether to allow killing of the foreground app by long-pressing the Back button
+          * @hide
+          */
+         public static final String KILL_APP_LONGPRESS_BACK = "kill_app_longpress_back";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
