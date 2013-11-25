@@ -513,6 +513,15 @@ class QuickSettings {
                     mRotationLockController.setRotationLocked(!locked);
                 }
             });
+            if (LONG_PRESS_TOGGLES) {
+                rotationLockTile.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        startSettingsActivity(android.provider.Settings.ACTION_DISPLAY_SETTINGS);
+                        return true;
+                    }
+                });
+            }
             mModel.addRotationLockTile(rotationLockTile, mRotationLockController,
                     new QuickSettingsModel.RefreshCallback() {
                         @Override
