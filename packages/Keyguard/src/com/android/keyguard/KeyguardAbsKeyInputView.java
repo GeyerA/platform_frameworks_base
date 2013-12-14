@@ -126,6 +126,13 @@ public abstract class KeyguardAbsKeyInputView extends LinearLayout
                 if (mCallback != null) {
                     mCallback.userActivity(0);
                 }
+                if (getQuickUnlockAllowed()) {
+                    if (s.length() > MINIMUM_PASSWORD_LENGTH_BEFORE_REPORT &&
+                            mLockPatternUtils.checkPassword(s.toString())) {
+                        mCallback.dismiss(true);
+                        mCallback.reportSuccessfulUnlockAttempt();
+                    }
+                }
             }
         });
         mSecurityMessageDisplay = new KeyguardMessageArea.Helper(this);
