@@ -2306,7 +2306,7 @@ public class NotificationManagerService extends INotificationManager.Stub
         }
 
         // Don't flash while we are in a call or screen is on
-        if (mLedNotification == null || mInCall || mScreenOn && !mDreaming) {
+        if (mLedNotification == null || mInCall || (mScreenOn && !mDreaming)) {
             mNotificationLight.turnOff();
         } else {
             final Notification ledno = mLedNotification.sbn.getNotification();
