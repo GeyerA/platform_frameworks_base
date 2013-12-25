@@ -122,6 +122,7 @@ class QuickSettings {
     private BluetoothState mBluetoothState;
     private BluetoothAdapter mBluetoothAdapter;
     private WifiManager mWifiManager;
+    private ConnectivityManager mConnectivityManager;
 
     private BluetoothController mBluetoothController;
     private RotationLockController mRotationLockController;
@@ -150,6 +151,8 @@ class QuickSettings {
         mBluetoothState = new QuickSettingsModel.BluetoothState();
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        mConnectivityManager =
+                    (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         mHandler = new Handler();
 
@@ -497,11 +500,18 @@ class QuickSettings {
                             @Override
                             public void onClick(View v) {
                                 // TODO: RSSI toggle
+                                boolean currentState = mConnectivityManager.getMobileDataEnabled();
+                                mConnectivityManager.setMobileDataEnabled(!currentState);
+                            }
+                        });
+                        rssiTile.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
                                 Intent intent = new Intent();
-                                intent.setComponent(new ComponentName(
-                                        "com.android.settings",
-                                        "com.android.settings.Settings$DataUsageSummaryActivity"));
+                                intent.setComponent(new ComponentName("com.android.settings",
+                                    "com.android.settings.Settings$DataUsageSummaryActivity"));
                                 startSettingsActivity(intent);
+                                return true;
                             }
                         });
                         mModel.addRSSITile(rssiTile, new NetworkActivityCallback() {
@@ -756,7 +766,7 @@ class QuickSettings {
         alarmTile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startSettingsActivity(AlarmClock.ACTION_SHOW_ALARMS);
+                startSettingsActivity(new Intent(AlarmClock.ACTION_SHOW_ALARMS));
             }
         });
         mModel.addAlarmTile(alarmTile, new QuickSettingsModel.RefreshCallback() {
