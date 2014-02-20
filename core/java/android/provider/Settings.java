@@ -2579,6 +2579,12 @@ public final class Settings {
         public static final String IMMERSIVE_MODE = "immersive_mode";
 
         /**
+         * Store last immersive state to persist through reboot
+         * @hide
+         */
+        public static final String IMMERSIVE_LAST_ACTIVE_STATE = "immersive_last_active_state";
+
+        /**
          * Turn screen on when device is pulled out of pocket
          * @hide
          */
