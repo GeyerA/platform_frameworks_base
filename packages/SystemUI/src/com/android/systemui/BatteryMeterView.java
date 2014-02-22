@@ -206,7 +206,7 @@ public class BatteryMeterView extends View implements DemoMode {
 
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setColor(0xff000000);
-        Typeface font = Typeface.create("sans-serif-condensed", Typeface.NORMAL);
+        Typeface font = Typeface.create("sans-serif", Typeface.NORMAL);
         mTextPaint.setTypeface(font);
         mTextPaint.setTextAlign(Paint.Align.CENTER);
 
