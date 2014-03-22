@@ -43,7 +43,9 @@ import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.provider.AlarmClock;
@@ -501,6 +503,20 @@ class QuickSettings {
             parent.addView(rssiTile);
         }
 
+       // Screen off
+        final QuickSettingsBasicTile screenoffTile = new QuickSettingsBasicTile(mContext);
+        screenoffTile.setImageResource(R.drawable.ic_qs_screen_off);
+        screenoffTile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+                pm.goToSleep(SystemClock.uptimeMillis());
+            }
+        });
+            mModel.addScreenOffTile(screenoffTile,
+                    new QuickSettingsModel.BasicRefreshCallback(screenoffTile));
+    parent.addView(screenoffTile);
+
         // Rotation Lock
         if (mContext.getResources().getBoolean(R.bool.quick_settings_show_rotation_lock)
                 || DEBUG_GONE_TILES) {
@@ -586,24 +602,6 @@ class QuickSettings {
         });
                     parent.addView(mBatteryTile);
 
-        // Airplane Mode
-        final QuickSettingsBasicTile airplaneTile
-                = new QuickSettingsBasicTile(mContext);
-        mModel.addAirplaneModeTile(airplaneTile, new QuickSettingsModel.RefreshCallback() {
-            @Override
-            public void refreshView(QuickSettingsTileView unused, State state) {
-                airplaneTile.setImageResource(state.iconId);
-
-                String airplaneState = mContext.getString(
-                        (state.enabled) ? R.string.accessibility_desc_on
-                                : R.string.accessibility_desc_off);
-                airplaneTile.setContentDescription(
-                        mContext.getString(R.string.accessibility_quick_settings_airplane, airplaneState));
-                airplaneTile.setText(state.label);
-            }
-        });
-        parent.addView(airplaneTile);
-
         // Bluetooth
         if (mModel.deviceSupportsBluetooth()
                 || DEBUG_GONE_TILES) {
@@ -657,6 +655,24 @@ class QuickSettings {
             parent.addView(bluetoothTile);
         }
 
+        // Airplane Mode
+        final QuickSettingsBasicTile airplaneTile
+                = new QuickSettingsBasicTile(mContext);
+        mModel.addAirplaneModeTile(airplaneTile, new QuickSettingsModel.RefreshCallback() {
+            @Override
+            public void refreshView(QuickSettingsTileView unused, State state) {
+                airplaneTile.setImageResource(state.iconId);
+
+                String airplaneState = mContext.getString(
+                        (state.enabled) ? R.string.accessibility_desc_on
+                                : R.string.accessibility_desc_off);
+                airplaneTile.setContentDescription(
+                        mContext.getString(R.string.accessibility_quick_settings_airplane, airplaneState));
+                airplaneTile.setText(state.label);
+            }
+        });
+        parent.addView(airplaneTile);
+
         // Location
         final QuickSettingsBasicTile locationTile
                 = new QuickSettingsBasicTile(mContext);
@@ -683,6 +699,7 @@ class QuickSettings {
                     return true; // Consume click
                 }} );
         }
+
         mModel.addLocationTile(locationTile, new QuickSettingsModel.RefreshCallback() {
             @Override
             public void refreshView(QuickSettingsTileView unused, State state) {
