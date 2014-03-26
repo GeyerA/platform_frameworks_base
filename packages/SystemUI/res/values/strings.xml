@@ -514,4 +514,11 @@
     <!-- Screen off tile -->
     <string name="quick_settings_screen_off_label">Screen Off</string>
 
+    <!-- QuickSettings: Sound Tile  -->
+    <string name="quick_settings_ringer_mode_silent_label">Silent</string>
+    <string name="quick_settings_ringer_mode_vibrate_label">Vibrate</string>
+    <string name="quick_settings_ringer_mode_normal_label">Sound</string>
+    <string name="quick_settings_ringer_mode_normal_vibrate_label">Sound &amp; Vibration</string>
+    <string name="quick_settings_volume_label">Volume</string>
+
 </resources>
