@@ -64,7 +64,7 @@ import android.view.WindowManager;
 import android.view.WindowManagerGlobal;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import com.android.internal.util.rascarlo.TorchConstants;
 import com.android.internal.app.MediaRouteDialogPresenter;
 import com.android.systemui.BatteryMeterView;
 import com.android.systemui.BatteryCircleMeterView;
@@ -682,6 +682,32 @@ class QuickSettings {
             }
         });
                     parent.addView(mBatteryTile);
+
+        // Torch
+        if (mModel.deviceSupportsLed()) {
+            final QuickSettingsBasicTile torchTile = new QuickSettingsBasicTile(mContext);
+            torchTile.setImageResource(R.drawable.ic_qs_torch);
+            torchTile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(TorchConstants.ACTION_TOGGLE_STATE);
+                    mContext.sendBroadcast(intent);
+                }
+            });
+            if (LONG_PRESS_TOGGLES) {
+                torchTile.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        getService().animateCollapsePanels();
+                        startSettingsActivity(TorchConstants.INTENT_LAUNCH_APP);
+                        return true;
+                    }
+                });
+                mModel.addTorchTile(torchTile,
+                        new QuickSettingsModel.BasicRefreshCallback(torchTile));
+                parent.addView(torchTile);
+            }
+        }
 
         // Airplane Mode
         final QuickSettingsBasicTile airplaneTile
