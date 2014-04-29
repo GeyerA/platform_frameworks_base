@@ -2500,7 +2500,7 @@ public final class Settings {
          * 1 - show (default)
          * @hide
          */
-        public static final String STATUS_BAR_CLOCK = "status_bar_clock";
+         public static final String STATUS_BAR_CLOCK = "status_bar_clock";
 
         /**
          * AM/PM Style for clock options
@@ -2700,6 +2700,12 @@ public final class Settings {
          * @hide
          */
         public static final String DIALPAD_STATE = "dialpad_state";
+
+        /**
+         * Whether to show the IME switcher in the status bar
+         * @hide
+         */
+        public static final String STATUS_BAR_IME_SWITCHER = "status_bar_ime_switcher";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
