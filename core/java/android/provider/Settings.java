@@ -2635,6 +2635,13 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_NOTIFICATIONS_PRIVACY_MODE = "lockscreen_notifications_privacy_mode";
 
+       /**
+         * Whether incomming call UI stays in background
+         *
+         * @hide
+         */
+        public static final String CALL_UI_IN_BACKGROUND = "call_ui_in_background";
+
         /**
          * Setting to show the battery percentage text
          * @hide
@@ -2677,6 +2684,22 @@ public final class Settings {
          * @hide
          */
         public static final String PEEK_WAKE_TIMEOUT = "peek_wake_timeout";
+
+        /**
+         * Hover, default is 0 (off).
+         * 0 = disabled
+         * 1 = enabled
+         * @hide
+         */
+        public static final String HOVER_STATE = "hover_state";
+
+        /**
+         * In call dialpad state.
+         * 0 = hidden
+         * 1 = showing
+         * @hide
+         */
+        public static final String DIALPAD_STATE = "dialpad_state";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
@@ -4649,6 +4672,9 @@ public final class Settings {
 
         /** @hide */
         public static final String IMMERSIVE_MODE_CONFIRMATIONS = "immersive_mode_confirmations";
+
+        /** @hide */
+        public static final String HOVER_FIRST_TIME = "hover_first_time";
 
         /**
          * This is the query URI for finding a print service to install.
