@@ -814,8 +814,7 @@ public class Hover {
     public void clearForegroundAppNotifications() {
         for (int i = 0; i < mNotificationList.size(); i++) {
             if (mNotificationList.get(i).getContent().getPackageName()
-                    .equals(mNotificationHelper.getForegroundPackageName())
-                            && i > 0) {
+                    .equals(mNotificationHelper.getForegroundPackageName())) {
                 mNotificationList.remove(i);
             }
         }
