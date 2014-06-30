@@ -110,7 +110,7 @@ public class HoverLayout extends RelativeLayout implements ExpandHelper.Callback
         switch (action) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_OUTSIDE:
-                if (!mTouchOutside) {
+                if (!mTouchOutside && !mHover.isAnimatingVisibility()) {
                     mHover.clearHandlerCallbacks();
                     // hide Hover after 1.25 seconds
                     mHover.startMicroHideCountdown();
