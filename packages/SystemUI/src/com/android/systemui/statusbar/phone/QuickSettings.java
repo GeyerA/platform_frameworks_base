@@ -38,7 +38,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.display.DisplayManager;
-import android.media.AudioManager;
 import android.media.MediaRouter;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
@@ -560,6 +559,49 @@ class QuickSettings {
             parent.addView(rotationLockTile);
         }
 
+        // Battery
+        mBatteryTile = (QuickSettingsTileView)
+                inflater.inflate(R.layout.quick_settings_tile, parent, false);
+                    mBatteryTile.setContent(R.layout.quick_settings_tile_battery, inflater);
+                    mBattery = (BatteryMeterView) mBatteryTile.findViewById(R.id.image);
+                    mBattery.setVisibility(View.GONE);
+                    mCircleBattery = (BatteryCircleMeterView)
+                            mBatteryTile.findViewById(R.id.circle_battery);
+                    updateBattery();
+                    mBatteryTile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSettingsActivity(Intent.ACTION_POWER_USAGE_SUMMARY);
+            }
+        });
+        mModel.addBatteryTile(mBatteryTile, new QuickSettingsModel.RefreshCallback() {
+            @Override
+            public void refreshView(QuickSettingsTileView unused, State state) {
+                QuickSettingsModel.BatteryState batteryState =
+                        (QuickSettingsModel.BatteryState) state;
+                String t;
+                if (batteryState.batteryLevel == 100) {
+                    t = mContext.getString(R.string.quick_settings_battery_charged_label);
+                } else {
+                                if (batteryState.pluggedIn) {
+                                    t = mBatteryStyle != 3 // circle percent
+                                        ? mContext.getString(R.string.quick_settings_battery_charging_label,
+                                batteryState.batteryLevel)
+                                        : mContext.getString(R.string.quick_settings_battery_charging);
+                                } else {     // battery bar or battery circle
+                                    t = (mBatteryStyle == 0 || mBatteryStyle == 2)
+                                        ? mContext.getString(R.string.status_bar_settings_battery_meter_format,
+                                            batteryState.batteryLevel)
+                                        : mContext.getString(R.string.quick_settings_battery_discharging);
+                                }
+                }
+                            ((TextView)mBatteryTile.findViewById(R.id.text)).setText(t);
+                            mBatteryTile.setContentDescription(
+                        mContext.getString(R.string.accessibility_quick_settings_battery, t));
+            }
+        });
+                    parent.addView(mBatteryTile);
+
         // Bluetooth
         if (mModel.deviceSupportsBluetooth()
                 || DEBUG_GONE_TILES) {
@@ -612,76 +654,6 @@ class QuickSettings {
             });
             parent.addView(bluetoothTile);
         }
-
-        // Sound tile
-            final QuickSettingsBasicTile soundTile = new QuickSettingsBasicTile(mContext);
-            soundTile.setImageResource(R.drawable.ic_qs_ringer_normal);
-            soundTile.setTextResource(R.string.quick_settings_ringer_mode_normal_label);
-            soundTile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mModel.switchRingerMode();
-                    mModel.refreshRingerModeTile();
-                }
-            });
-            soundTile.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    collapsePanels();
-                    startSettingsActivity(android.provider.Settings.ACTION_SOUND_SETTINGS);
-                    return true;
-                 }
-            });
-            mModel.addRingerModeTile(soundTile, new QuickSettingsModel.RefreshCallback() {
-                @Override
-                public void refreshView(QuickSettingsTileView unused, State state) {
-                soundTile.setImageResource(state.iconId);                          soundTile.setText(state.label);
-                  }
-            });
-            parent.addView(soundTile);
-
-        // Battery
-        mBatteryTile = (QuickSettingsTileView)
-                inflater.inflate(R.layout.quick_settings_tile, parent, false);
-                    mBatteryTile.setContent(R.layout.quick_settings_tile_battery, inflater);
-                    mBattery = (BatteryMeterView) mBatteryTile.findViewById(R.id.image);
-                    mBattery.setVisibility(View.GONE);
-                    mCircleBattery = (BatteryCircleMeterView)
-                            mBatteryTile.findViewById(R.id.circle_battery);
-                    updateBattery();
-                    mBatteryTile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startSettingsActivity(Intent.ACTION_POWER_USAGE_SUMMARY);
-            }
-        });
-        mModel.addBatteryTile(mBatteryTile, new QuickSettingsModel.RefreshCallback() {
-            @Override
-            public void refreshView(QuickSettingsTileView unused, State state) {
-                QuickSettingsModel.BatteryState batteryState =
-                        (QuickSettingsModel.BatteryState) state;
-                String t;
-                if (batteryState.batteryLevel == 100) {
-                    t = mContext.getString(R.string.quick_settings_battery_charged_label);
-                } else {
-                                if (batteryState.pluggedIn) {
-                                    t = mBatteryStyle != 3 // circle percent
-                                        ? mContext.getString(R.string.quick_settings_battery_charging_label,
-                                batteryState.batteryLevel)
-                                        : mContext.getString(R.string.quick_settings_battery_charging);
-                                } else {     // battery bar or battery circle
-                                    t = (mBatteryStyle == 0 || mBatteryStyle == 2)
-                                        ? mContext.getString(R.string.status_bar_settings_battery_meter_format,
-                                            batteryState.batteryLevel)
-                                        : mContext.getString(R.string.quick_settings_battery_discharging);
-                                }
-                }
-                            ((TextView)mBatteryTile.findViewById(R.id.text)).setText(t);
-                            mBatteryTile.setContentDescription(
-                        mContext.getString(R.string.accessibility_quick_settings_battery, t));
-            }
-        });
-                    parent.addView(mBatteryTile);
 
         // Airplane Mode
         final QuickSettingsBasicTile airplaneTile
