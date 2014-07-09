@@ -1695,8 +1695,7 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
         }
     }
 
-    // Ringer mode
-    private static final int RINGER_MODE_SILENT = 0;
+    // Ringer mode3af25ac0fd1c1279ec0d7adc872e253da9ea8757
     private static final int RINGER_MODE_VIBRATE = 1;
     private static final int RINGER_MODE_NORMAL = 2;
 
@@ -1713,10 +1712,6 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     private void onRingerModeChanged(int ringerMode) {
         Resources r = mContext.getResources();
         switch (ringerMode) {
-            case RINGER_MODE_SILENT:
-                updateRingerModeTile(R.drawable.ic_qs_ringer_silent,
-                        r.getString(R.string.quick_settings_ringer_mode_silent_label));
-                break;
             case RINGER_MODE_VIBRATE:
                 updateRingerModeTile(R.drawable.ic_qs_ringer_vibrate,
                         r.getString(R.string.quick_settings_ringer_mode_vibrate_label));
@@ -1759,7 +1754,7 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     protected void switchRingerMode() {
         int ringerMode = getRingerMode();
         switch (ringerMode) {
-            case RINGER_MODE_SILENT:
+            case RINGER_MODE_NORMAL:
                 if (mVibrator.hasVibrator()) {
                     setRingerMode(RINGER_MODE_VIBRATE);
                     mVibrator.vibrate(150);
@@ -1770,9 +1765,6 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
             case RINGER_MODE_VIBRATE:
                 setRingerMode(RINGER_MODE_NORMAL);
                 if(vibrateWhenRinging()) mVibrator.vibrate(150);
-                break;
-            case RINGER_MODE_NORMAL:
-                setRingerMode(RINGER_MODE_SILENT);
                 break;
         }
     }
