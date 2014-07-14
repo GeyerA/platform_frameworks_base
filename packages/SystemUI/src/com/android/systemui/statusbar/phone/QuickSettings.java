@@ -544,6 +544,7 @@ class QuickSettings {
                             public void onClick(View v) {
                                 boolean currentState = mConnectivityManager.getMobileDataEnabled();
                                 mConnectivityManager.setMobileDataEnabled(!currentState);
+                                mModel.refreshRssiTile();
                             }
                         });
                         rssiTile.setFrontOnLongClickListener(new View.OnLongClickListener() {
