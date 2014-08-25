@@ -171,7 +171,8 @@ public final class PowerManagerService extends IPowerManager.Stub
     // effectively and terminate the dream.
     private static final int DREAM_BATTERY_LEVEL_DRAIN_CUTOFF = 5;
 
-    private static final float PROXIMITY_NEAR_THRESHOLD = 5.0f;
+    // Max time allowed for proximity check
+    private static final int MAX_PROXIMITY_WAIT = 200;
 
     private Context mContext;
     private LightsService mLightsService;
@@ -384,11 +385,7 @@ public final class PowerManagerService extends IPowerManager.Stub
 
     private SensorManager mSensorManager;
     private Sensor mProximitySensor;
-    private boolean mProximityWakeEnabled;
-    private int mProximityTimeOut;
-    private boolean mProximityWakeSupported;
-    android.os.PowerManager.WakeLock mProximityWakeLock;
-    SensorEventListener mProximityListener;
+    private boolean mProximityWake;
 
     public PowerManagerService() {
         synchronized (mLock) {
@@ -546,15 +543,6 @@ public final class PowerManagerService extends IPowerManager.Stub
                 com.android.internal.R.bool.config_dreamsActivatedOnSleepByDefault);
         mDreamsActivatedOnDockByDefaultConfig = resources.getBoolean(
                 com.android.internal.R.bool.config_dreamsActivatedOnDockByDefault);
-        mProximityTimeOut = resources.getInteger(
-                com.android.internal.R.integer.config_proximityCheckTimeout);
-        mProximityWakeSupported = resources.getBoolean(
-                com.android.internal.R.bool.config_proximityCheckOnWake);
-        if (mProximityWakeSupported) {
-            PowerManager powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-            mProximityWakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                    "ProximityWakeLock");
-        }
     }
 
     private void updateSettingsLocked() {
@@ -577,7 +565,7 @@ public final class PowerManagerService extends IPowerManager.Stub
                 UserHandle.USER_CURRENT);
         mStayOnWhilePluggedInSetting = Settings.Global.getInt(resolver,
                 Settings.Global.STAY_ON_WHILE_PLUGGED_IN, BatteryManager.BATTERY_PLUGGED_AC);
-        mProximityWakeEnabled = Settings.System.getInt(resolver,
+        mProximityWake = Settings.System.getInt(resolver,
                 Settings.System.PROXIMITY_ON_WAKE, 0) == 1;
 
         final int oldScreenBrightnessSetting = mScreenBrightnessSetting;
@@ -1004,23 +992,13 @@ public final class PowerManagerService extends IPowerManager.Stub
             // There is already a message queued;
             return;
         }
-        if (mProximityWakeSupported && mProximityWakeEnabled && mProximitySensor != null) {
+        if (mProximityWake && mProximitySensor != null) {
             Message msg = mHandler.obtainMessage(MSG_WAKE_UP);
             msg.obj = r;
-            mHandler.sendMessageDelayed(msg, mProximityTimeOut);
+            mHandler.sendMessageDelayed(msg, MAX_PROXIMITY_WAIT);
             runPostProximityCheck(r);
         } else {
             r.run();
-        }
-    }
-
-    private void cleanupProximity() {
-        if (mProximityWakeLock.isHeld()) {
-            mProximityWakeLock.release();
-        }
-        if (mProximityListener != null) {
-            mSensorManager.unregisterListener(mProximityListener);
-            mProximityListener = null;
         }
     }
 
@@ -1029,19 +1007,16 @@ public final class PowerManagerService extends IPowerManager.Stub
             r.run();
             return;
         }
-        mProximityWakeLock.acquire();
-        mProximityListener = new SensorEventListener() {
+        mSensorManager.registerListener(new SensorEventListener() {
             @Override
             public void onSensorChanged(SensorEvent event) {
-                cleanupProximity();
+                mSensorManager.unregisterListener(this);
                 if (!mHandler.hasMessages(MSG_WAKE_UP)) {
                     Slog.w(TAG, "The proximity sensor took too long, wake event already triggered!");
                     return;
                 }
                 mHandler.removeMessages(MSG_WAKE_UP);
-                float distance = event.values[0];
-                if (distance >= PROXIMITY_NEAR_THRESHOLD ||
-                        distance >= mProximitySensor.getMaximumRange()) {
+                if (event.values[0] == mProximitySensor.getMaximumRange()) {
                     r.run();
                 }
             }
@@ -1049,9 +1024,7 @@ public final class PowerManagerService extends IPowerManager.Stub
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
-        };
-        mSensorManager.registerListener(mProximityListener,
-                mProximitySensor, SensorManager.SENSOR_DELAY_FASTEST);
+        }, mProximitySensor, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     @Override // Binder call
@@ -2612,7 +2585,6 @@ public final class PowerManagerService extends IPowerManager.Stub
                     checkIfBootAnimationFinished();
                     break;
                 case MSG_WAKE_UP:
-                    cleanupProximity();
                     ((Runnable) msg.obj).run();
                     break;
             }
