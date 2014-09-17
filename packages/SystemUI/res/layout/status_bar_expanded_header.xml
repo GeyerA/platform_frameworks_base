@@ -78,15 +78,6 @@
         android:layout_height="50dp"
         android:layout_marginStart="12dp"
         >
-        <ImageView android:id="@+id/clear_all_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-        android:layout_marginLeft="4dp"
-            android:scaleType="center"
-            android:src="@drawable/ic_notify_clear"
-            android:background="@drawable/ic_notify_button_bg"
-            android:contentDescription="@string/accessibility_clear_all"
-            />
         <ImageView android:id="@+id/edit_mode_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -94,6 +85,22 @@
             android:src="@drawable/ic_notify_edit_normal"
             android:background="@drawable/ic_notify_button_bg"
             android:visibility="gone"
+            android:contentDescription="@string/accessibility_clear_all"
+            />
+    </FrameLayout>
+
+    <FrameLayout android:id="@+id/context_button_holder"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        >
+        <ImageView android:id="@+id/clear_all_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+        android:layout_marginLeft="4dp"
+            android:scaleType="center"
+            android:src="@drawable/ic_notify_clear"
+            android:background="@drawable/ic_notify_button_bg"
             android:contentDescription="@string/accessibility_clear_all"
             />
     </FrameLayout>
