@@ -80,6 +80,7 @@ public class Clock extends TextView implements DemoMode {
     protected int mClockDateStyle = CLOCK_DATE_STYLE_UPPERCASE;
     protected int mClockStyle = STYLE_CLOCK_RIGHT;
     protected boolean mShowClock;
+    private boolean mScreenOn = true;
 
     private int mAmPmStyle;
 
@@ -150,6 +151,8 @@ public class Clock extends TextView implements DemoMode {
             filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
             filter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
             filter.addAction(Intent.ACTION_USER_SWITCHED);
+            filter.addAction(Intent.ACTION_SCREEN_ON);
+            filter.addAction(Intent.ACTION_SCREEN_OFF);
 
             getContext().registerReceiver(mIntentReceiver, filter, null, getHandler());
         }
@@ -195,6 +198,16 @@ public class Clock extends TextView implements DemoMode {
                 }
             }
             updateClock();
+
+            if (action.equals(Intent.ACTION_SCREEN_ON)) {
+                mScreenOn = true;
+            } else if (action.equals(Intent.ACTION_SCREEN_OFF)) {
+                mScreenOn = false;
+            }
+
+            if (mScreenOn) {
+                updateClock();
+            }
         }
     };
 
