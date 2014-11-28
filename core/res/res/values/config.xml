@@ -1880,6 +1880,9 @@
 
     <bool name="config_sms_force_7bit_encoding">false</bool>
 
+    <!-- Setting to false will disable CM's IME switcher implementation for tablets -->
+    <bool name="config_show_cmIMESwitcher">true</bool>
+
     <!-- This config is used to check if the carrier requires converting destination
          number before sending out a SMS.
          Formats for this configuration as below:
