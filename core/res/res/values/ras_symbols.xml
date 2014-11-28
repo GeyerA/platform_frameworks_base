@@ -5,6 +5,9 @@
     <java-symbol name="app_killed_message" type="string" />
     <java-symbol name="config_backKillTimeout" type="integer" />
 
+    <!-- Show CMIMESwitcher -->
+    <java-symbol type="bool" name="config_show_cmIMESwitcher"/>
+
     <!-- Power menu reboot -->
     <java-symbol type="array" name="shutdown_reboot_options" />
     <java-symbol type="array" name="shutdown_reboot_actions" />
