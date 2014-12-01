@@ -3017,6 +3017,12 @@ public final class Settings {
 	 */
 	public static final String HFM_DISABLE_ADS = "hfm_disable_ads";
 
+         /**
+         * Recents Show/Hide Search Bar
+         * @hide
+         */
+        public static final String RECENTS_SHOW_HIDE_SEARCH_BAR = "recents_show_hide_search_bar";
+
         /**
          * show clear all recents button
          *  @hide
