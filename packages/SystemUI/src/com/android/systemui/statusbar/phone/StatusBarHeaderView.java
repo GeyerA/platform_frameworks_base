@@ -443,14 +443,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 
     @Override
     public void onWeatherChanged(WeatherController.WeatherInfo info) {
-        if (info.temp == null || info.condition == null) {
-            mWeatherLine1.setText(null);
-        } else {
-            mWeatherLine1.setText(mContext.getString(
-                    R.string.status_bar_expanded_header_weather_format,
-                    info.temp,
-                    info.condition));
-        }
+        mWeatherLine1.setText(mContext.getString(R.string.status_bar_expanded_header_weather_format,
+                info.temp, info.condition));
         mWeatherLine2.setText(info.city);
     }
 
@@ -540,9 +534,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             PendingIntent showIntent = mNextAlarm.getShowIntent();
             if (showIntent != null && showIntent.isActivity()) {
                 mActivityStarter.startActivity(showIntent.getIntent(), true /* dismissShade */);
+            }
         } else if (v == mWeatherContainer) {
             startForecastActivity();
-            }
         }
     }
 
