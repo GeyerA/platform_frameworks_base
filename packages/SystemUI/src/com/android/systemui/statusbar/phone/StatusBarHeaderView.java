@@ -64,6 +64,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         View.OnLongClickListener, BatteryController.BatteryStateChangeCallback,
         NextAlarmController.NextAlarmChangeCallback, WeatherController.Callback {
 
+    private static final int STATUS_BAR_POWER_MENU_OFF = 0;
+    private static final int STATUS_BAR_POWER_MENU_DEFAULT = 1;
+    private static final int STATUS_BAR_POWER_MENU_INVERTED = 2;
     private boolean mExpanded;
     private boolean mListening;
 
@@ -374,7 +377,7 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         }
         mEmergencyCallsOnly.setVisibility(mExpanded && mShowEmergencyCallsOnly ? VISIBLE : GONE);
         mBatteryLevel.setVisibility(mExpanded ? View.VISIBLE : View.GONE);
-        mStatusBarPowerMenu.setVisibility(mExpanded && (mStatusBarPowerMenuStyle > 0) ? View.VISIBLE : View.GONE);
+        mStatusBarPowerMenu.setVisibility(mExpanded && (mStatusBarPowerMenuStyle != STATUS_BAR_POWER_MENU_OFF) ? View.VISIBLE : View.GONE);
     }
 
     private void updateSignalClusterDetachment() {
@@ -598,9 +601,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     }
 
     private void statusBarPowerMenuAction() {
-        if (mStatusBarPowerMenuStyle == 1) {
+        if (mStatusBarPowerMenuStyle == STATUS_BAR_POWER_MENU_DEFAULT) {
             goToSleep();
-        } else if (mStatusBarPowerMenuStyle == 2) {
+        } else if (mStatusBarPowerMenuStyle == STATUS_BAR_POWER_MENU_INVERTED) {
             triggerPowerMenuDialog();
         }
     }
@@ -913,9 +916,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     @Override
     public boolean onLongClick(View v) {
         if (v == mStatusBarPowerMenu) {
-            if (mStatusBarPowerMenuStyle == 1) {
+            if (mStatusBarPowerMenuStyle == STATUS_BAR_POWER_MENU_DEFAULT) {
                 triggerPowerMenuDialog();
-            } else if (mStatusBarPowerMenuStyle == 2) {
+            } else if (mStatusBarPowerMenuStyle == STATUS_BAR_POWER_MENU_INVERTED) {
                 goToSleep();
             }
         }
