@@ -30,8 +30,6 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.PowerManager;
-import android.os.SystemClock;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.MathUtils;
@@ -61,8 +59,7 @@ import com.android.systemui.statusbar.policy.WeatherControllerImpl;
  * The view to manage the header area in the expanded status bar.
  */
 public class StatusBarHeaderView extends RelativeLayout implements View.OnClickListener,
-        View.OnLongClickListener, BatteryController.BatteryStateChangeCallback,
-        NextAlarmController.NextAlarmChangeCallback, WeatherController.Callback {
+        BatteryController.BatteryStateChangeCallback, NextAlarmController.NextAlarmChangeCallback, WeatherController.Callback {
 
     private boolean mExpanded;
     private boolean mListening;
@@ -88,7 +85,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
     private TextView mEmergencyCallsOnly;
     private TextView mBatteryLevel;
     private TextView mAlarmStatus;
-    private ImageView mStatusBarPowerMenu;
     private TextView mWeatherLine1, mWeatherLine2;
 
     private boolean mShowEmergencyCallsOnly;
@@ -133,26 +129,12 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
 
     private float mCurrentT;
     private boolean mShowingDetail;
-    private int mStatusBarPowerMenuStyle;
 
     private SettingsObserver mSettingsObserver;
     private boolean mShowWeather;
 
-    private ContentObserver mContentObserver = new ContentObserver(new Handler()) {
-        public void onChange(boolean selfChange, Uri uri) {
-            loadShowStatusBarPowerMenuSettings();
-        }
-    };
-
     public StatusBarHeaderView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        loadShowStatusBarPowerMenuSettings();
-    }
-
-    private void loadShowStatusBarPowerMenuSettings() {
-        ContentResolver resolver = getContext().getContentResolver();
-        mStatusBarPowerMenuStyle = Settings.System.getInt(resolver,
-                Settings.System.STATUS_BAR_POWER_MENU, 0);
     }
 
     @Override
@@ -178,10 +160,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mQsDetailHeaderProgress = (ImageView) findViewById(R.id.qs_detail_header_progress);
         mEmergencyCallsOnly = (TextView) findViewById(R.id.header_emergency_calls_only);
         mBatteryLevel = (TextView) findViewById(R.id.battery_level);
-        mStatusBarPowerMenu = (ImageView) findViewById(R.id.status_bar_power_menu);
-        mStatusBarPowerMenu.setOnClickListener(this);
-        mStatusBarPowerMenu.setLongClickable(true);
-        mStatusBarPowerMenu.setOnLongClickListener(this);
         mAlarmStatus = (TextView) findViewById(R.id.alarm_status);
         mAlarmStatus.setOnClickListener(this);
         mSignalCluster = findViewById(R.id.signal_cluster);
@@ -374,7 +352,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         }
         mEmergencyCallsOnly.setVisibility(mExpanded && mShowEmergencyCallsOnly ? VISIBLE : GONE);
         mBatteryLevel.setVisibility(mExpanded ? View.VISIBLE : View.GONE);
-        mStatusBarPowerMenu.setVisibility(mExpanded && (mStatusBarPowerMenuStyle > 0) ? View.VISIBLE : View.GONE);
     }
 
     private void updateSignalClusterDetachment() {
@@ -565,12 +542,9 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             if (showIntent != null && showIntent.isActivity()) {
                 mActivityStarter.startActivity(showIntent.getIntent(), true /* dismissShade */);
             }
-        } else if (v == mStatusBarPowerMenu) {
-            statusBarPowerMenuAction();
         } else if (v == mWeatherContainer) {
             startForecastActivity();
         }
-
     }
 
     private void startSettingsActivity() {
@@ -588,21 +562,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setComponent(WeatherControllerImpl.COMPONENT_WEATHER_FORECAST);
         mActivityStarter.startActivity(intent, true /* dismissShade */);
-    }
-
-    private void triggerPowerMenuDialog() {
-        Intent intent = new Intent(Intent.ACTION_POWER_MENU);
-        mContext.sendBroadcast(intent); /* broadcast action */
-        mActivityStarter.startActivity(intent,
-                true /* dismissShade */);
-    }
-
-    private void statusBarPowerMenuAction() {
-        if (mStatusBarPowerMenuStyle == 1) {
-            goToSleep();
-        } else if (mStatusBarPowerMenuStyle == 2) {
-            triggerPowerMenuDialog();
-        }
     }
 
     public void setQSPanel(QSPanel qsp) {
@@ -646,7 +605,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         target.avatarScale = mMultiUserAvatar.getScaleX();
         target.avatarX = mMultiUserSwitch.getLeft() + mMultiUserAvatar.getLeft();
         target.avatarY = mMultiUserSwitch.getTop() + mMultiUserAvatar.getTop();
-        target.statusBarPowerMenuY = mClock.getTop();
         target.weatherY = mClock.getBottom() - mWeatherLine1.getHeight();
         if (getLayoutDirection() == LAYOUT_DIRECTION_LTR) {
             target.batteryX = mSystemIconsSuperContainer.getLeft()
@@ -686,7 +644,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mTime.setScaleY(values.timeScale);
         mClock.setY(values.clockY - mClock.getHeight());
         mDateGroup.setY(values.dateY);
-        mStatusBarPowerMenu.setY(values.statusBarPowerMenuY);
         mWeatherContainer.setY(values.weatherY);
         mAlarmStatus.setY(values.dateY - mAlarmStatus.getPaddingTop());
         mMultiUserAvatar.setScaleX(values.avatarScale);
@@ -726,7 +683,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         applyAlpha(mDateExpanded, values.dateExpandedAlpha);
         applyAlpha(mBatteryLevel, values.batteryLevelAlpha);
         applyAlpha(mSettingsButton, values.settingsAlpha);
-        applyAlpha(mStatusBarPowerMenu, values.settingsAlpha);
         applyAlpha(mWeatherLine1, values.settingsAlpha);
         applyAlpha(mWeatherLine2, values.settingsAlpha);
         applyAlpha(mSignalCluster, values.signalClusterAlpha);
@@ -760,7 +716,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         float settingsTranslation;
         float signalClusterAlpha;
         float settingsRotation;
-        float statusBarPowerMenuY;
         float weatherY;
 
         public void interpoloate(LayoutValues v1, LayoutValues v2, float t) {
@@ -773,7 +728,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             batteryX = v1.batteryX * (1 - t) + v2.batteryX * t;
             batteryY = v1.batteryY * (1 - t) + v2.batteryY * t;
             settingsTranslation = v1.settingsTranslation * (1 - t) + v2.settingsTranslation * t;
-            statusBarPowerMenuY = v1.statusBarPowerMenuY * (1 - t) + v2.statusBarPowerMenuY * t;
             weatherY = v1.weatherY * (1 - t) + v2.weatherY * t;
 
             float t1 = Math.max(0, t - 0.5f) * 2;
@@ -847,7 +801,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
             final boolean showingDetail = detail != null;
             transition(mClock, !showingDetail);
             transition(mDateGroup, !showingDetail);
-            transition(mStatusBarPowerMenu, !showingDetail);
             transition(mWeatherContainer, !showingDetail);
             if (mAlarmShowing) {
                 transition(mAlarmStatus, !showingDetail);
@@ -895,32 +848,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
                     .start();
         }
     };
-
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        ContentResolver resolver = getContext().getContentResolver();
-        // status bar power menu
-        resolver.registerContentObserver(Settings.System.getUriFor(
-                Settings.System.STATUS_BAR_POWER_MENU), false, mContentObserver);
-    }
-
-    private void goToSleep() {
-        PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-                pm.goToSleep(SystemClock.uptimeMillis());
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-        if (v == mStatusBarPowerMenu) {
-            if (mStatusBarPowerMenuStyle == 1) {
-                triggerPowerMenuDialog();
-            } else if (mStatusBarPowerMenuStyle == 2) {
-                goToSleep();
-            }
-        }
-        return false;
-    }
 
     class SettingsObserver extends ContentObserver {
         SettingsObserver(Handler handler) {
