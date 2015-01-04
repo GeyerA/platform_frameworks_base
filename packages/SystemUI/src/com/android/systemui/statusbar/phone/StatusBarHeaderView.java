@@ -548,18 +548,6 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mQSPanel.vibrateTile(20);
     }
 
-    private View.OnLongClickListener mLongClickListener =
-            new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            if (v == mHeadsUpButton) {
-                startHeadsUpLongClickActivity();
-                mQSPanel.vibrateTile(20);
-            }
-            return true;
-        }
-    };
-
     private void startSettingsActivity() {
         mActivityStarter.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS),
                 true /* dismissShade */);
