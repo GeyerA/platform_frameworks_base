@@ -19,7 +19,6 @@ package com.android.systemui.qs.tiles;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.Settings;
 
 import com.android.systemui.R;
 import com.android.systemui.qs.UsageTracker;
@@ -28,7 +27,6 @@ import com.android.systemui.statusbar.policy.HotspotController;
 
 /** Quick settings tile: Hotspot **/
 public class HotspotTile extends QSTile<QSTile.BooleanState> {
-    private static final Intent WIRELESS_SETTINGS = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
     private final HotspotController mController;
     private final Callback mCallback = new Callback();
     private final UsageTracker mUsageTracker;
@@ -64,11 +62,6 @@ public class HotspotTile extends QSTile<QSTile.BooleanState> {
     protected void handleClick() {
         final boolean isEnabled = (Boolean) mState.value;
         mController.setHotspotEnabled(!isEnabled);
-    }
-
-    @Override
-    protected void handleLongClick() {
-        mHost.startSettingsActivity(WIRELESS_SETTINGS);
     }
 
     @Override
