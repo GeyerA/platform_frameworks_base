@@ -2055,6 +2055,12 @@ public final class Settings {
          */
         public static final String STATUS_BAR_IME_SWITCHER = "status_bar_ime_switcher";
 
+        /** Whether to show the brightness slider in quick settings panel.
+         *
+         * @hide
+         */
+        public static final String QS_SHOW_BRIGHTNESS_SLIDER = "qs_show_brightness_slider";
+
         /**
          * List of QS tile names
          * @hide
