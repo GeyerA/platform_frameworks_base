@@ -32,14 +32,11 @@ public class QSConstants {
     public static final String TILE_LOCATION = "location";
     public static final String TILE_CAST = "cast";
     public static final String TILE_HOTSPOT = "hotspot";
-    public static final String TILE_DATA = "data";
-    public static final String TILE_ROAMING = "roaming";
-    public static final String TILE_DDS = "dds";
-    public static final String TILE_APN = "apn";
     public static final String TILE_EXPANDED_DESKTOP = "expanded_desktop";
     public static final String TILE_NFC = "nfc";
     public static final String TILE_COMPASS = "compass";
     public static final String TILE_SCREEN_OFF = "screen_off";
+    public static final String TILE_LTE = "lte";
     public static final String TILE_SCREEN_TIMEOUT = "screen_timeout";
     public static final String TILE_SYNC = "sync";
     public static final String TILE_USB_TETHER = "usb_tether";
@@ -62,22 +59,18 @@ public class QSConstants {
     protected static final ArrayList<String> TILES_AVAILABLE = new ArrayList<String>();
 
     static {
-        TILES_AVAILABLE.add(TILE_VISUALIZER);
         TILES_AVAILABLE.addAll(TILES_DEFAULT);
-        TILES_AVAILABLE.add(TILE_INVERSION);
-        TILES_AVAILABLE.add(TILE_HOTSPOT);
-        TILES_AVAILABLE.add(TILE_DATA);
-        TILES_AVAILABLE.add(TILE_ROAMING);
-        TILES_AVAILABLE.add(TILE_DDS);
-        TILES_AVAILABLE.add(TILE_APN);
-        TILES_AVAILABLE.add(TILE_EXPANDED_DESKTOP);
-        TILES_AVAILABLE.add(TILE_NFC);
         TILES_AVAILABLE.add(TILE_COMPASS);
-        TILES_AVAILABLE.add(TILE_SCREEN_OFF);
-	TILES_AVAILABLE.add(TILE_SCREEN_TIMEOUT);
         TILES_AVAILABLE.add(TILE_EXPANDED_DESKTOP);
+        TILES_AVAILABLE.add(TILE_HOTSPOT);
+        TILES_AVAILABLE.add(TILE_INVERSION);
+        TILES_AVAILABLE.add(TILE_LTE);
+        TILES_AVAILABLE.add(TILE_NFC);
+        TILES_AVAILABLE.add(TILE_SCREEN_OFF);
+        TILES_AVAILABLE.add(TILE_SCREENSHOT);
+	TILES_AVAILABLE.add(TILE_SCREEN_TIMEOUT);
 	TILES_AVAILABLE.add(TILE_SYNC);     
         TILES_AVAILABLE.add(TILE_USB_TETHER);
-        TILES_AVAILABLE.add(TILE_SCREENSHOT);
+        TILES_AVAILABLE.add(TILE_VISUALIZER);
     }
 }
