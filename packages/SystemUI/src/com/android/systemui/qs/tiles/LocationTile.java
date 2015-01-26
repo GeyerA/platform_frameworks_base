@@ -77,6 +77,11 @@ public class LocationTile extends QSTile<QSTile.BooleanState> {
     }
 
     @Override
+    protected void handleLongClick() {
+        mHost.startSettingsActivity(LOCATION_SETTINGS);
+    }
+
+    @Override
     protected void handleUpdateState(BooleanState state, Object arg) {
         final int currentState = mController.getLocationCurrentState();
         final boolean locationEnabled = currentState != Settings.Secure.LOCATION_MODE_OFF;
