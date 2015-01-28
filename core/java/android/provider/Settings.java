@@ -3531,6 +3531,7 @@ public final class Settings {
         public static final String DISPLAY_COLOR_ENHANCE = "display_color_enhance";
 
         /**
+<<<<<<< HEAD
          * Manual display color adjustments (RGB values as floats, separated by spaces)
          * @hide
          */
@@ -3554,6 +3555,25 @@ public final class Settings {
          * @hide
          */
         public static final String ALLOW_LIGHTS = "allow_lights";
+
+        /**
+         * Whether to show the weather info on the lock screen
+         * @hide
+         */
+        public static final String LOCK_SCREEN_SHOW_WEATHER = "lock_screen_show_weather";
+
+        /**
+         * Whether to show the weather location lock screen
+         * @hide
+         */
+        public static final String LOCK_SCREEN_SHOW_WEATHER_LOCATION = "lock_screen_show_weather_location";
+
+        /**
+         * Ad blocker
+	 * Disable ads (HFM)
+	 * @hide
+	 */
+	public static final String HFM_DISABLE_ADS = "hfm_disable_ads";
 
         /**
          * Volume key controls ringtone or media sound stream
@@ -3584,13 +3604,6 @@ public final class Settings {
          * @hide
          */
         public static final String CLOCK_USE_SECOND = "clock_use_second";
-
-        /**
-         * Ad blocker
-	 * Disable ads (HFM)
-	 * @hide
-	 */
-	public static final String HFM_DISABLE_ADS = "hfm_disable_ads";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
