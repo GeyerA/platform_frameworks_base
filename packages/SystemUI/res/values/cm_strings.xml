@@ -53,5 +53,4 @@
     <string name="quick_settings_location_detail_mode_sensors_only_description">Use GPS to determine your location</string>
 
     <string name="quick_settings_visualizer_label">Visualiser</string>
-    <string name="quick_settings_screen_off">Screen off</string>
 </resources>
