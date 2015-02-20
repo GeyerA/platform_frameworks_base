@@ -567,8 +567,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int MSG_HIDE_BOOT_MESSAGE = 11;
     private static final int MSG_LAUNCH_VOICE_ASSIST_WITH_WAKE_LOCK = 12;
     private static final int MSG_DISPATCH_VOLKEY_WITH_WAKE_LOCK = 13;
-
-    private boolean mHasPermanentMenuKey;
     private boolean mClearedBecauseOfForceShow;
     private boolean mTopWindowIsKeyguard;
 
