@@ -3302,6 +3302,7 @@ package android.app {
     method public android.transition.TransitionManager getContentTransitionManager();
     method public android.view.View getCurrentFocus();
     method public android.app.FragmentManager getFragmentManager();
+    method public android.os.Handler getHandler();
     method public android.content.Intent getIntent();
     method public deprecated java.lang.Object getLastNonConfigurationInstance();
     method public android.view.LayoutInflater getLayoutInflater();
