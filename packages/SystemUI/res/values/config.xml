@@ -295,5 +295,9 @@
 
     <!-- Enable the default volume dialog -->
     <bool name="enable_volume_ui">true</bool>
+
+    <!-- Control whether status bar should distinguish HSPAP data icon form HSPA
+    data icon on devices -->
+    <bool name="config_hspap_data_distinguishable">true</bool>
 </resources>
 
