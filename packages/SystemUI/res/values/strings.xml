@@ -946,6 +946,9 @@
     <!-- QuickSettings: Location (On, high-accuracy) [CHAR LIMIT=NONE] -->
     <string name="quick_settings_location_high_accuracy_label">High accuracy</string>
 
+    <!-- Screen-off qs tile -->
+    <string name="quick_settings_screen_off">Screen off</string>
+
     <!-- Visualiser qs tile -->
     <string name="quick_settings_visualizer_label">DSP Manager</string>
     

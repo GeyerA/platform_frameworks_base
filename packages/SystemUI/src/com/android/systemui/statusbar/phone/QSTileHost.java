@@ -44,6 +44,7 @@ import com.android.systemui.qs.tiles.IntentTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
+import com.android.systemui.qs.tiles.ScreenOffTile;
 import com.android.systemui.qs.tiles.ScreenTimeoutTile;
 import com.android.systemui.qs.tiles.VisualizerTile;
 import com.android.systemui.qs.tiles.WifiTile;
@@ -258,6 +259,8 @@ public class QSTileHost implements QSTile.Host {
         switch (tileSpec) {
             case QSConstants.TILE_VISUALIZER:
                 return new VisualizerTile(this);
+            case QSConstants.TILE_SCREEN_OFF:
+                return new ScreenOffTile(this);
             case QSConstants.TILE_WIFI:
                 return new WifiTile(this);
             case QSConstants.TILE_BLUETOOTH:
