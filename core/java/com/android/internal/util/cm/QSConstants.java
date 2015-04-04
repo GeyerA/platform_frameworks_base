@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class QSConstants {
     private QSConstants() {}
 
+    public static final String TILE_VISUALIZER = "visualizer";
     public static final String TILE_WIFI = "wifi";
     public static final String TILE_BLUETOOTH = "bt";
     public static final String TILE_INVERSION = "inversion";
@@ -56,6 +57,7 @@ public class QSConstants {
     protected static final ArrayList<String> TILES_AVAILABLE = new ArrayList<String>();
 
     static {
+        TILES_AVAILABLE.add(TILE_VISUALIZER);
         TILES_AVAILABLE.addAll(TILES_DEFAULT);
         TILES_AVAILABLE.add(TILE_INVERSION);
         TILES_AVAILABLE.add(TILE_HOTSPOT);
