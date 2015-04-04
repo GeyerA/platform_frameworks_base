@@ -36,6 +36,7 @@ public class QSConstants {
     public static final String TILE_ROAMING = "roaming";
     public static final String TILE_DDS = "dds";
     public static final String TILE_APN = "apn";
+    public static final String TILE_EXPANDED_DESKTOP = "expanded_desktop";
     public static final String TILE_NFC = "nfc";
     public static final String TILE_COMPASS = "compass";
     public static final String TILE_SCREEN_OFF = "screen_off";
@@ -66,6 +67,7 @@ public class QSConstants {
         TILES_AVAILABLE.add(TILE_ROAMING);
         TILES_AVAILABLE.add(TILE_DDS);
         TILES_AVAILABLE.add(TILE_APN);
+        TILES_AVAILABLE.add(TILE_EXPANDED_DESKTOP);
         TILES_AVAILABLE.add(TILE_NFC);
         TILES_AVAILABLE.add(TILE_COMPASS);
         TILES_AVAILABLE.add(TILE_SCREEN_OFF);
