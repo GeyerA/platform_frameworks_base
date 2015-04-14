@@ -5279,7 +5279,7 @@ public final class Settings {
          * Whether to show four tiles per row.
          * @hide
          */
-        public static final String QS_USE_FOUR_COLUMNS = "qs_use_four_columns";
+        public static final String QS_USE_FIVE_COLUMNS = "qs_use_five_columns";
 
         /**
          * This are the settings to be backed up.
