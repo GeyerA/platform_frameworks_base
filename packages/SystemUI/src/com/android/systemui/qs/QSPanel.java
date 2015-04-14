@@ -69,7 +69,7 @@ public class QSPanel extends ViewGroup {
 
     private int mColumns;
     private int mNumberOfColumns;
-    private boolean mUseFourColumns;
+    private boolean mUseFiveColumns;
     private int mCellWidth;
     private int mCellHeight;
     private int mLargeCellWidth;
@@ -161,15 +161,15 @@ public class QSPanel extends ViewGroup {
     }
 
     /**
-     * Use three or four columns.
+     * Use three or five columns.
      */
-    private int useFourColumns() {
+    private int useFiveColumns() {
         final Resources res = mContext.getResources();
-        mUseFourColumns = Settings.Secure.getInt(
-            mContext.getContentResolver(), Settings.Secure.QS_USE_FOUR_COLUMNS,
+        mUseFiveColumns = Settings.Secure.getInt(
+            mContext.getContentResolver(), Settings.Secure.QS_USE_FIVE_COLUMNS,
                 0) == 1;
-        if (mUseFourColumns) {
-            mNumberOfColumns = 4;
+        if (mUseFiveColumns) {
+            mNumberOfColumns = 5;
         } else {
             mNumberOfColumns = res.getInteger(R.integer.quick_settings_num_columns);
         }
@@ -217,9 +217,9 @@ public class QSPanel extends ViewGroup {
 
     public void updateResources() {
         final Resources res = mContext.getResources();
-        final int columns = Math.max(1, useFourColumns());
+        final int columns = Math.max(1, useFiveColumns());
         mCellHeight = res.getDimensionPixelSize(R.dimen.qs_tile_height);
-        if (mUseFourColumns) {
+        if (mUseFiveColumns) {
             mCellWidth = (int)(mCellHeight * 0.8f);
             mLargeCellWidth = (int)(mLargeCellHeight * 0.8f);
         } else {
