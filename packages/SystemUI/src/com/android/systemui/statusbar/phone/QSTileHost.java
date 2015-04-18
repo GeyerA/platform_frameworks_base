@@ -265,8 +265,6 @@ public class QSTileHost implements QSTile.Host {
         switch (tileSpec) {
             case QSConstants.TILE_VISUALIZER:
                 return new VisualizerTile(this);
-            case QSConstants.TILE_SCREEN_OFF:
-                return new ScreenOffTile(this);
             case QSConstants.TILE_WIFI:
                 return new WifiTile(this);
             case QSConstants.TILE_BLUETOOTH:
@@ -298,9 +296,7 @@ public class QSTileHost implements QSTile.Host {
 	    case QSConstants.TILE_SCREEN_TIMEOUT:
                 return new ScreenTimeoutTile(this);
 	    case QSConstants.TILE_SCREEN_OFF:
-                return new ScreenOffTile(this);
-            case QSConstants.TILE_EXPANDED_DESKTOP:
-                return new ExpandedDesktopTile(this);           
+                return new ScreenOffTile(this);        
             case QSConstants.TILE_SYNC:
                 return new SyncTile(this);          
             case QSConstants.TILE_USB_TETHER:
