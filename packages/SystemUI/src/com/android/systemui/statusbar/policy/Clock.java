@@ -40,7 +40,6 @@ import com.android.systemui.cm.UserContentObserver;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.Timer;
@@ -211,7 +210,7 @@ public class Clock implements DemoMode {
 
         if (Settings.System.getInt(mContext.getContentResolver(), Settings.System.CLOCK_USE_SECOND, 0) == 1) {
             String temp = result;
-            result = String.format("%s:%02d", temp, new GregorianCalendar().get(Calendar.SECOND));
+            result = String.format("%s:%02d", temp, mCalendar.get(Calendar.SECOND));
         }
 
         if (mAmPmStyle != AM_PM_STYLE_NORMAL) {
