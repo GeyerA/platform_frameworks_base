@@ -40,11 +40,8 @@ import com.android.systemui.cm.UserContentObserver;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import libcore.icu.LocaleData;
 
@@ -104,9 +101,6 @@ public class Clock implements DemoMode {
             updateSettings();
         }
     }
-
-    private final Handler handler = new Handler();
-    TimerTask second;
 
     public Clock(Context context, TextView v) {
         mContext = context;
@@ -209,11 +203,6 @@ public class Clock implements DemoMode {
         }
         String result = sdf.format(mCalendar.getTime());
 
-        if (Settings.System.getInt(mContext.getContentResolver(), Settings.System.CLOCK_USE_SECOND, 0) == 1) {
-            String temp = result;
-            result = String.format("%s:%02d", temp, new GregorianCalendar().get(Calendar.SECOND));
-        }
-
         if (mAmPmStyle != AM_PM_STYLE_NORMAL) {
             int magic1 = result.indexOf(MAGIC1);
             int magic2 = result.indexOf(MAGIC2);
@@ -292,24 +281,6 @@ public class Clock implements DemoMode {
         mAmPmStyle = (Settings.System.getIntForUser(resolver,
                 Settings.System.STATUS_BAR_AM_PM, 2, UserHandle.USER_CURRENT));
         mClockFormatString = "";
-
-        second = new TimerTask()
-        {
-            @Override
-            public void run()
-             {
-                Runnable updater = new Runnable()
-                  {        
-                   public void run()
-                   {     
-                       updateClock();
-                   }
-                  };
-                handler.post(updater);
-             }
-        };
-        Timer timer = new Timer();
-        timer.schedule(second, 0, 1001); 
 
         updateClock();
     }
