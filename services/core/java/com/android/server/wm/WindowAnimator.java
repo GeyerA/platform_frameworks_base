@@ -32,6 +32,7 @@ import static com.android.server.wm.WindowManagerService.LayoutFields.SET_WALLPA
 import android.content.Context;
 import android.os.Debug;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.Slog;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
@@ -250,6 +251,9 @@ public class WindowAnimator {
 
         final WindowList windows = mService.getWindowListLocked(displayId);
 
+        final boolean seeThrough = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.LOCKSCREEN_SEE_THROUGH, 0) == 1;
+
         if (mKeyguardGoingAway) {
             for (int i = windows.size() - 1; i >= 0; i--) {
                 WindowState win = windows.get(i);
@@ -266,6 +270,8 @@ public class WindowAnimator {
                         winAnimator.mAnimation = new AlphaAnimation(1.0f, 1.0f);
                         winAnimator.mAnimation.setDuration(
                                 mBlurUiEnabled ? 0 : KEYGUARD_ANIM_TIMEOUT_MS);
+                        winAnimator.mAnimation.setDuration(
+                                (seeThrough) ? 0 : KEYGUARD_ANIM_TIMEOUT_MS);
                         winAnimator.mAnimationIsEntrance = false;
                         winAnimator.mAnimationStartTime = -1;
                     }
@@ -334,14 +340,18 @@ public class WindowAnimator {
                         if (mBlurUiEnabled) {
                             mForceHiding = KEYGUARD_NOT_SHOWN;
                         } else {
+                        if (seeThrough) {
+                            mForceHiding = KEYGUARD_NOT_SHOWN;
+                        } else {
                             if (nowAnimating) {
                                 if (winAnimator.mAnimationIsEntrance) {
                                     mForceHiding = KEYGUARD_ANIMATING_IN;
                                 } else {
                                     mForceHiding = KEYGUARD_ANIMATING_OUT;
                                 }
-                            } else {
-                                mForceHiding = win.isDrawnLw() ? KEYGUARD_SHOWN : KEYGUARD_NOT_SHOWN;
+                                } else {
+                                    mForceHiding = win.isDrawnLw() ? KEYGUARD_SHOWN : KEYGUARD_NOT_SHOWN;
+                                }
                             }
                         }
                     }
