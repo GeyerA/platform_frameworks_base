@@ -77,9 +77,10 @@
             android:textColor="@color/status_bar_battery_level_text_color"
             android:textSize="@dimen/battery_level_text_size"
             android:background="@drawable/somc_sys_battery_percent_am"
-            android:paddingStart="@dimen/header_battery_somc_expanded"
-            android:gravity="center|start" 
+            android:gravity="center_vertical"
+            android:paddingStart="6dp"
             android:importantForAccessibility="noHideDescendants"/>
+
         <com.android.systemui.DockBatteryLevelTextView android:id="@+id/dock_battery_level_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -89,8 +90,8 @@
             android:textColor="@color/status_bar_battery_level_text_color"
             android:textSize="@dimen/battery_level_text_size"
             android:background="@drawable/somc_sys_battery_percent_am"
-            android:paddingStart="@dimen/header_battery_somc_expanded"
-            android:gravity="center|start" 
+            android:gravity="center_vertical"
+            android:paddingStart="6dp"
             android:importantForAccessibility="noHideDescendants"
             android:visibility="gone"/>
     </LinearLayout>

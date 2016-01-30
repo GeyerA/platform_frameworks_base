@@ -100,10 +100,10 @@
                android:layout_gravity="center_vertical"
                android:layout_marginStart="@dimen/header_battery_margin_keyguard"
                android:textColor="#ffffff"
-               android:textSize="@dimen/battery_level_text_size"
+               android:textSize="@dimen/battery_level_text_size" 
                android:background="@drawable/somc_sys_battery_percent_am"
-               android:paddingStart="@dimen/header_battery_somc_keyguard"
-               android:gravity="center|start" />
+               android:gravity="center_vertical"
+               android:paddingStart="6dp" />
 
             <com.android.systemui.DockBatteryLevelTextView android:id="@+id/dock_battery_level_text"
                android:layout_width="wrap_content"
@@ -112,10 +112,10 @@
                android:layout_marginStart="@dimen/header_battery_margin_keyguard"
                android:textColor="#ffffff"
                android:textSize="@dimen/battery_level_text_size"
-               android:visibility="gone" 
+               android:visibility="gone"
                android:background="@drawable/somc_sys_battery_percent_am"
-               android:paddingStart="@dimen/header_battery_somc_keyguard"
-               android:gravity="center|start" />
+               android:gravity="center_vertical"
+               android:paddingStart="6dp" />
 
             <com.android.systemui.statusbar.policy.Clock
                 android:id="@+id/clock"
